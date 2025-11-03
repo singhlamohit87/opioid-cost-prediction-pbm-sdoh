@@ -1,0 +1,7 @@
+Data Sources:
+1. CMS Medicare Part D Prescriber Public Use Files (2013–2023)
+   https://data.cms.gov/provider-summary-by-type-of-service/medicare-part-d-prescribers
+2. County Health Rankings & Roadmaps (2024)
+   https://www.countyhealthrankings.org/explore-health-rankings/rankings-data-documentation
+3. U.S. Census County Population Estimates
+   https://www.census.gov/programs-surveys/popest/data.html

@@ -1,0 +1,6 @@
+,,,,,,
+,Dataset,Join Key,Description,,,
+,CMS Medicare Part D,County FIPS + Year,Used to link prescribing and cost data,,,
+,County Health Rankings,County FIPS + Year,Provides SDOH indicators (unemployment, obesity, provider rates),
+,US Census Population Estimates,County FIPS + Year,Used to calculate per-capita rates,,,
+,Merged Master File,County FIPS + Year,Final integrated dataset for model training,,,
