@@ -13,7 +13,21 @@ It contains example data structures, feature-engineering logic, model pipeline d
 - `/notebooks/` – Jupyter notebooks for feature engineering, modeling, and simulation  
 - `/figures/` – Key figures used in the manuscript (R² plots, SHAP charts, etc.)  
 - `/data/` – Sample synthetic datasets (no PHI)  
-- `/docs/` – Paper PDF and supplementary materials  
+- `/docs/` – Paper PDF and supplementary materials
+
+ ## Data Availability and Reproducibility
+
+All data used in this project are publicly available from:
+- **CMS Medicare Part D Prescriber Public Use Files (2013–2023)**  
+  https://data.cms.gov/provider-summary-by-type-of-service/medicare-part-d-prescribers  
+- **County Health Rankings & Roadmaps (CHR 2024)**  
+  https://www.countyhealthrankings.org/explore-health-rankings/rankings-data-documentation  
+- **U.S. Census County Population Estimates**  
+  https://www.census.gov/programs-surveys/popest/data.html  
+
+Sample data and variable definitions are included in the `/data` folder for reproducibility.  
+No patient-level or restricted data were used.
+
 
 ## Citation
 If you reference this work, please cite:
