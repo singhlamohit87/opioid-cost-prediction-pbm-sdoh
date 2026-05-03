@@ -1,0 +1,16 @@
+Feature,MeanAbsSHAP
+log1p_claims_per_1k,1843.717265481694
+opioid_prscrbng_rate,246.6400846859617
+pct_severe_housing_problems,161.4894765272389
+tot_clms,113.89195659481143
+population,41.03870885768203
+pct_uninsured,38.84579792346144
+pct_unemployed,35.09818538128041
+pct_excessive_drinking,28.094291015376196
+income_ratio,15.863113031999458
+injury_death_rate,8.89635272226829
+mental_health_provider_rate,6.268308230932095
+primary_care_physicians_rate,6.185569186660335
+pct_children_in_poverty,5.333731076355677
+pct_adults_with_obesity,4.442957479367435
+pct_adults_reporting_currently_smoking,3.475314410420298
