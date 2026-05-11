@@ -9,10 +9,9 @@ This repository contains all data, code, and model artifacts supporting the stud
 **Author:** Mohit Singhal, MS  
 **Affiliation:** Independent Researcher, Virginia Beach, VA, USA  
 **ORCID:** 0009-0009-1518-4598  
-**Contact:** singhlamohit@gmail.com  
+**Contact:** mohit.rsda@gmail.com
 **GitHub:** https://github.com/singhlamohit87/opioid-cost-prediction-pbm-sdoh  
 **Zenodo DOI:** 10.5281/zenodo.19842331  
-**Manuscript submitted to:** Frontiers in Public Health (under review)
 
 ---
 
