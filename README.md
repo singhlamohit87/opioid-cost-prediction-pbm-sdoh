@@ -6,8 +6,8 @@ This repository contains all data, code, and model artifacts supporting the stud
 
 **"Does Social Context Shape the Fiscal Mechanics of Opioid Spending? A County-Level Machine-Learning Analysis of Medicare Part D Utilization and Social Determinants of Health, United States, 2013–2023"**
 
-**Author:** Mohit Singhal, MS  
-**Affiliation:** Independent Researcher, Virginia Beach, VA, USA  
+**Author:** Mohit
+**Affiliation:** Independent Researcher, USA  
 **ORCID:** 0009-0009-1518-4598  
 **Contact:** mohit.rsda@gmail.com
 **GitHub:** https://github.com/singhlamohit87/opioid-cost-prediction-pbm-sdoh  
