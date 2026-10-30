@@ -1,216 +1,129 @@
-# Opioid Cost Prediction Using PBM and SDOH: County-Level Machine Learning Framework
+# Community-Level Opioid Prescribing Burden and Surveillance Gaps in Rural America
 
 ## Overview
 
-This repository contains all data, code, and model artifacts supporting the study:
+This repository documents independent research on geographic variation in U.S. opioid prescribing and the limitations of relying solely on claims-per-prescriber rankings to characterize community-level prescribing burden.
 
-**"Does Social Context Shape the Fiscal Mechanics of Opioid Spending? A County-Level Machine-Learning Analysis of Medicare Part D Utilization and Social Determinants of Health, United States, 2013–2023"**
+**Study:** *Community-Level Opioid Prescribing Burden in Rural America and the Surveillance Gap That Sustains It*
 
-**Author:** Mohit
+**Author:** Mohit Singhal  
 **Affiliation:** Independent Researcher, USA  
-**ORCID:** 0009-0009-1518-4598  
-**Contact:** mohit.rsda@gmail.com
-**GitHub:** https://github.com/singhlamohit87/opioid-cost-prediction-pbm-sdoh  
-**Zenodo DOI:** 10.5281/zenodo.19842331  
+**ORCID:** [0009-0009-1518-4598](https://orcid.org/0009-0009-1518-4598)  
+**Contact:** [mohit.rsda@gmail.com](mailto:mohit.rsda@gmail.com)  
+**Repository:** [singhlamohit87/opioid-cost-prediction-pbm-sdoh](https://github.com/singhlamohit87/opioid-cost-prediction-pbm-sdoh)  
+**Existing Zenodo DOI:** [10.5281/zenodo.19842331](https://doi.org/10.5281/zenodo.19842331) *(verify that the deposited version corresponds to the current OPII analysis before citing it as the archive for this study)*
 
----
+> **Repository status:** The earlier README documented a different analysis of Medicare Part D opioid spending. The current manuscript analyzes an Opioid Prescribing Intensity Index (OPII), not opioid spending. Historical notebooks and artifacts should be treated as legacy materials until the OPII implementation and results are uploaded and verified.
 
-## Study Summary
+## Research question
 
-This study develops and validates a county-level machine-learning framework that integrates Pharmacy Benefit Management (PBM) utilization metrics with Social Determinants of Health (SDOH) indicators to explain geographic variation in Medicare Part D opioid spending across approximately 3,100 U.S. counties from 2013 to 2023.
+Do county-level rankings based on opioid claims per prescriber overlook communities with high prescribing burden when claims are also considered relative to the population?
 
-### Key Findings
+The analysis evaluates this question using Medicare Part D geographic prescribing data, county population estimates, rural–urban classifications, and social determinants of health (SDOH) indicators.
 
-- **Temporal validation:** Random Forest model trained on 2013–2020 data achieves R² = 0.926 and RMSE = $499 on a completely held-out 2021–2023 temporal test set spanning the COVID-19 disruption period
-- **H1 confirmed:** PBM utilization metrics explain 77.7% of temporal holdout variance vs. 11.1% for SDOH indicators alone, establishing utilization as the proximate fiscal determinant
-- **H2 partially confirmed:** Severe housing instability (pct_severe_housing_problems) is the strongest SDOH predictor (mean |SHAP| = 161), outranking poverty, unemployment, and provider density — a novel finding
-- **Policy simulation:** Integrated PBM + SDOH scenario produces 8.2% directional reduction in mean predicted opioid cost per capita
-- **Access paradox:** SDOH expansion produces predicted cost increases in access-constrained states (Alaska, Arizona, DC), consistent with preventive-care health economics
+## Opioid Prescribing Intensity Index (OPII)
 
----
+For county \(c\) in year \(t\):
 
-## Data Sources
+\[
+\mathrm{OPII}_{c,t}
+=\left(\frac{\mathrm{OpioidClaims}_{c,t}}{\mathrm{Population}_{c,t}}\right)
+\times\left(\frac{\mathrm{OpioidClaims}_{c,t}}{\mathrm{OpioidPrescribers}_{c,t}}\right)
+=\frac{\mathrm{OpioidClaims}_{c,t}^{2}}{\mathrm{Population}_{c,t}\,\mathrm{OpioidPrescribers}_{c,t}}.
+\]
 
-All data used in this study are publicly available from federal repositories. No proprietary or restricted-access data were used.
+The first factor captures opioid claims relative to county population; the second captures claims relative to the number of opioid prescribers. OPII is a **prescribing-intensity construct**, not a direct measure of opioid use disorder, overdose mortality, individual exposure, or causal harm. Medicare Part D claims do not represent all prescriptions dispensed in a county, and the population denominator includes residents outside Part D.
 
-| Dataset | Source | Years | URL |
-|---------|--------|-------|-----|
-| Medicare Part D Opioid Prescribing Data | Centers for Medicare and Medicaid Services (CMS) | 2013–2023 | https://data.cms.gov/ |
-| County Health Rankings | University of Wisconsin Population Health Institute | 2014–2024 | https://www.countyhealthrankings.org/ |
-| County Population Estimates | U.S. Census Bureau | 2013–2023 | https://www.census.gov/ |
+## Study design and data
 
----
+| Component | Current study |
+|---|---|
+| Geographic units | 2,557 U.S. counties |
+| Study period | 2013–2023 |
+| Analytical observations | 28,065 county-years |
+| Prescribing data | CMS Medicare Part D Prescribers by Geography and Drug |
+| Population | U.S. Census Bureau county population estimates |
+| Rural–urban classification | USDA 2023 Rural–Urban Continuum Codes (RUCC) |
+| SDOH covariates | 2024 County Health Rankings release; treated as time-invariant in the analysis |
+| Prediction model | Random Forest regression |
+| Temporal evaluation | Training years 2013–2020; holdout years 2021–2023 |
+| Geographic evaluation | Leave-one-state-out assessment |
+| Model interpretation | SHAP, including rural–metropolitan comparisons |
+| Scenario analysis | Model-based perturbations of predictor values |
 
-## Repository Structure
+**Temporal interpretation:** Because the SDOH indicators are drawn from a later, largely time-invariant release, the chronological outcome holdout should not be described as fully prospective or free from all future-information concerns.
 
-```
-├── data/
-│   └── cleaned/
-│       └── feature_engineered_panel.csv     # Merged, cleaned county-year panel (3,100 counties, 2013–2023)
-├── models/
-│   ├── final_model.pkl                       # Trained Random Forest pipeline (scikit-learn)
-│   └── final_feature_list.json              # Final 15 features used in model
-├── results/
-│   ├── model_comparison_summary.csv         # Sub-model comparison (integrated vs SDOH-only vs utilization-only)
-│   ├── shap_feature_importance_auto.csv     # Global SHAP mean absolute importance values
-│   ├── policy_simulation_results.csv        # National simulation results for 9 scenarios
-│   ├── county_level_predictions.csv         # County-level baseline predictions and scenario outputs
-│   ├── state_savings_SDOH_and_PBM.csv       # State-level aggregated simulation savings
-│   └── top5_counties_opioid_cost.csv        # Top 5 highest-burden counties with scenario results
-├── notebooks/
-│   ├── 05_data_predictive_modeling.ipynb    # Feature engineering and initial modeling
-│   ├── 06_data_model_experiments_updtd.ipynb # Final model training with temporal split
-│   ├── 07_ModelEvaluation_updtd.ipynb       # Model evaluation, SHAP, sub-model comparison
-│   └── 08_modelsimulation_updtd.ipynb       # Counterfactual policy simulations and visualization
-└── README.md                                # This file
-```
+## Main findings
 
----
+- **Rural–metropolitan disparity:** Mean OPII in 2023 was approximately **100,674 in rural counties versus 50,220 in metropolitan counties**.
+- **Ranking discordance:** **165 counties** were in the highest OPII decile but not in the highest claims-per-prescriber decile. These counties collectively contained approximately **13.2 million residents**; this is their geographic population, not a count of opioid recipients or people with opioid use disorder.
+- **Rural concentration:** **53.8%** of the 165 discordant counties were rural, compared with **23.4%** of counties in the full study sample.
+- **Temporal model performance:** Random Forest holdout **R² = 0.913** for 2021–2023. This is variance explained, not 91.3% classification accuracy.
+- **Geographic robustness:** Mean leave-one-state-out **R² = 0.891**.
+- **Model interpretation:** Mean absolute SHAP attribution for opioid prescribing rate was reported as **0.72 for rural** and **0.54 for metropolitan** counties. SHAP explains model predictions and should not be interpreted as identifying causal drivers.
+- **Illustrative scenario:** A 20% perturbation of the prescribing-rate feature was associated with a **34% reduction in predicted OPII nationally** and **40% in rural counties**. These are model-based sensitivity results, **not estimated effects of implemented policies**.
 
-## Feature List
+### What the 165-county comparison demonstrates
 
-The final model uses 15 features selected through automated correlation-based pruning (threshold r > 0.90):
+The analysis documents disagreement between **two specific county-ranking approaches**: OPII and opioid claims per prescriber. It does **not** establish that these counties are absent from every federal surveillance system or excluded from actual funding decisions.
 
-### PBM Utilization Features (3)
-| Feature | Description |
-|---------|-------------|
-| log1p_claims_per_1k | Log-transformed opioid claims per 1,000 population |
-| opioid_prscrbng_rate | Opioid prescribing rate per 100 Medicare beneficiaries |
-| tot_clms | Total Medicare claims |
+## Data sources
 
-### SDOH Features (12)
-| Feature | Description |
-|---------|-------------|
-| pct_severe_housing_problems | Percentage of adults with severe housing problems |
-| pct_unemployed | Unemployment rate |
-| pct_uninsured | Percentage uninsured |
-| pct_children_in_poverty | Child poverty rate |
-| income_ratio | Income inequality measure (80th/20th percentile ratio) |
-| mental_health_provider_rate | Mental health providers per 100,000 population |
-| primary_care_physicians_rate | Primary care physicians per 100,000 population |
-| pct_adults_reporting_currently_smoking | Adult smoking prevalence |
-| pct_adults_with_obesity | Adult obesity prevalence |
-| pct_excessive_drinking | Excessive drinking prevalence |
-| injury_death_rate | Injury death rate per 100,000 population |
-| population | County population |
+| Dataset | Source | Period or release |
+|---|---|---|
+| Medicare Part D Prescribers by Geography and Drug | [CMS Data](https://data.cms.gov/) | 2013–2023 |
+| County population estimates | [U.S. Census Bureau](https://www.census.gov/) | 2013–2023 |
+| County Health Rankings | [County Health Rankings & Roadmaps](https://www.countyhealthrankings.org/) | 2024 release (underlying source years vary) |
+| Rural–Urban Continuum Codes | [USDA Economic Research Service](https://www.ers.usda.gov/data-products/rural-urban-continuum-codes/) | 2023 |
 
-**Note:** log1p_cost_per_claim was excluded due to collinearity with log1p_claims_per_1k (Pearson r = 0.908 > threshold 0.90). This prevents the PBM cost-per-claim reduction scenario from producing simulation output and is acknowledged as a model limitation.
+## Repository organization and reproducibility
 
----
+The **previous repository layout** contained the following artifacts associated with the earlier opioid **cost** analysis:
 
-## Model Architecture and Training
-
-| Parameter | Value |
-|-----------|-------|
-| Algorithm | Random Forest Regressor (scikit-learn 1.4) |
-| n_estimators | 200 |
-| max_depth | 20 |
-| min_samples_split | 5 |
-| random_state | 42 |
-| Imputation | Median imputation |
-| Scaling | Z-score standardization |
-| Hyperparameter tuning | RandomizedSearchCV, 5-fold CV on training set |
-
-### Temporal Validation Split
-
-| Split | Years | Observations |
-|-------|-------|-------------|
-| Training | 2013–2020 | 81,975 county-year |
-| Temporal holdout | 2021–2023 | 30,880 county-year |
-
-The holdout set spans the COVID-19 disruption period and was withheld entirely from training, hyperparameter tuning, and all model selection decisions.
-
----
-
-## Model Performance
-
-| Model | Holdout R² (2021–2023) | Holdout RMSE ($) |
-|-------|------------------------|------------------|
-| Integrated PBM-SDOH (final) | 0.926 | 499 |
-| Utilization-Only | 0.777 | 1,499 |
-| SDOH-Only | 0.111 | 5,981 |
-| Linear Regression Baseline | 0.897 | 525 |
-
-Training cross-validation: mean R² = 0.948 (SD = 0.023)
-
----
-
-## Policy Simulation Scenarios
-
-All simulation results are directional sensitivity analyses based on counterfactual modification of predictor values. They are associational and should not be interpreted as causal estimates of real-world intervention effects.
-
-| Scenario | Δ% vs. Baseline | Δ Per Capita ($) |
-|----------|-----------------|------------------|
-| Integrated PBM + SDOH | −8.2% | −$1.70 |
-| PBM Triple Play | −6.0% | −$1.23 |
-| PBM Utilization Guidance (−5%) | −4.4% | −$0.91 |
-| SDOH Integrated | −2.6% | −$0.53 |
-| PBM Formulary Tightening (−10%) | −1.6% | −$0.32 |
-| SDOH Smoking Reduction (−5%) | −1.1% | −$0.23 |
-| SDOH Mental-Health Expansion (+20%) | −0.6% | −$0.12 |
-| SDOH Primary-Care Expansion (+10%) | −0.4% | −$0.09 |
-| SDOH Obesity Reduction (−5%) | −0.3% | −$0.07 |
-| PBM Cost-per-Claim Reduction (−3%) | 0.0% | $0.00 (feature excluded) |
-
----
-
-## Replication Instructions
-
-### Requirements
-
-```
-Python 3.13
-scikit-learn >= 1.4
-shap >= 0.44
-pandas >= 2.0
-numpy >= 1.26
-matplotlib >= 3.8
-joblib
-plotly (for choropleth maps)
+```text
+data/cleaned/feature_engineered_panel.csv
+models/final_model.pkl
+models/final_feature_list.json
+results/model_comparison_summary.csv
+results/shap_feature_importance_auto.csv
+results/policy_simulation_results.csv
+results/county_level_predictions.csv
+results/state_savings_SDOH_and_PBM.csv
+results/top5_counties_opioid_cost.csv
+notebooks/05_data_predictive_modeling.ipynb
+notebooks/06_data_model_experiments_updtd.ipynb
+notebooks/07_ModelEvaluation_updtd.ipynb
+notebooks/08_modelsimulation_updtd.ipynb
 ```
 
-### Steps to Reproduce
+**Important:** The file names above are documented from the previous README and are **not verified as reproducing the OPII analysis**. In particular, opioid cost predictions, cost-per-capita simulations, and the former 15-feature model must not be conflated with the OPII results reported here.
 
-1. Download all files from this repository
-2. Place the feature_engineered_panel.csv in `data/cleaned/`
-3. Run notebooks in order:
-   - `05_data_predictive_modeling.ipynb` — feature engineering
-   - `06_data_model_experiments_updtd.ipynb` — model training and feature selection
-   - `07_ModelEvaluation_updtd.ipynb` — evaluation, SHAP, sub-model comparison
-   - `08_modelsimulation_updtd.ipynb` — policy simulations and figures
-4. All outputs will be saved to `results/` and `models/`
+To make this repository fully reproducible for the current manuscript, upload or identify the exact OPII analysis scripts/notebooks, input-data processing steps, final feature list, trained model or training procedure, OPII county-year output, validation results, SHAP outputs, and scenario definitions. Then replace this legacy inventory with verified paths and execution instructions. Until then, this README is a study description rather than a verified end-to-end reproduction guide.
 
-### Key Variable: Temporal Split
+## Interpretation and limitations
 
-The critical code for the temporal validation split is in notebook 06, Step 7:
+- The study is ecological and cannot identify individual-level prescribing behavior, medication use, addiction, or overdose outcomes.
+- CMS Part D data capture a subset of prescribing activity; using total county population as a denominator can be affected by Medicare coverage and demographic composition.
+- OPII is sensitive to the number of prescribers and to the mathematical scaling of its two factors; it should be interpreted alongside its components.
+- County-level rankings can vary by year, denominator definitions, and data completeness.
+- SDOH covariates from the 2024 release are treated as time-invariant, limiting historical and prospective interpretation.
+- SHAP results are model explanations, not causal effects.
+- Counterfactual feature perturbations do not demonstrate that a real-world intervention would produce the same change.
+- The observed ranking discrepancy concerns OPII versus claims per prescriber; it is not a comprehensive evaluation of all opioid surveillance programs.
 
-```python
-# Temporal validation split - train 2013-2020, validate 2021-2023
-train_mask = panel['year'] <= 2020
-test_mask = panel['year'] >= 2021
+## Research ethics, funding, and competing interests
 
-X_train = X_selected[train_mask]
-X_test = X_selected[test_mask]
-y_train = y[train_mask]
-y_test = y[test_mask]
-```
+**Ethics:** The analysis uses publicly available aggregate county-level data and does not involve recruitment or direct interaction with human participants. Institutional review requirements depend on the applicable institution and regulations; no independent IRB determination is asserted here.
 
+**Funding:** No specific funding was reported for this independent research.
 
+**Competing interests:** None declared by the author.
 
----
+## Citation and versioning
+
+Please cite the eventual journal publication when available. Until then, identify the work by its manuscript title and author, and use a repository release or Zenodo version DOI **only after confirming that the archived files match this OPII study**.
 
 ## License
 
-This repository is licensed under Creative Commons Attribution 4.0 International (CC BY 4.0). You are free to share and adapt the material for any purpose, provided appropriate credit is given.
+The previous README specified **Creative Commons Attribution 4.0 International (CC BY 4.0)**. Retain this statement only if the repository's actual license and permissions for code and third-party data are consistent with that designation. Code licensing and source-data reuse rights may differ.
 
----
-
-## Ethics Statement
-
-This study uses exclusively publicly available, de-identified federal administrative and survey data. No human subjects were directly involved. The research was exempt from Institutional Review Board review in accordance with 45 CFR 46.101(b).
-
----
-
-## Funding and Conflicts of Interest
-
-The author received no specific funding for this work. No conflicts of interest are declared.
