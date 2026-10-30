@@ -1,14 +1,15 @@
 # Data Overview
 
-This repository uses publicly available datasets to model opioid cost per capita at the U.S. county level (2013–2023).
+This repository uses publicly available datasets to model OPII at the U.S. county level (2013–2023).
 
 ## Data Sources
-1. CMS Medicare Part D Prescriber Public Use Files (2013–2023)  
-   https://data.cms.gov/provider-summary-by-type-of-service/medicare-part-d-prescribers  
-2. County Health Rankings & Roadmaps (CHR 2024)  
-   https://www.countyhealthrankings.org/explore-health-rankings/rankings-data-documentation  
-3. U.S. Census County Population Estimates  
-   https://www.census.gov/programs-surveys/popest/data.html  
+
+| Dataset | Source | Period or release |
+|---|---|---|
+| Medicare Part D Prescribers by Geography and Drug | [CMS Data](https://data.cms.gov/) | 2013–2023 |
+| County population estimates | [U.S. Census Bureau](https://www.census.gov/) | 2013–2023 |
+| County Health Rankings | [County Health Rankings & Roadmaps](https://www.countyhealthrankings.org/) | 2024 release (underlying source years vary) |
+| Rural–Urban Continuum Codes | [USDA Economic Research Service](https://www.ers.usda.gov/data-products/rural-urban-continuum-codes/) | 2023 |
 
 ## Merge Keys
 - **FIPS (Federal Information Processing Standard)**: uniquely identifies counties.  
