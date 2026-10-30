@@ -11,7 +11,7 @@ This repository documents independent research on geographic variation in U.S. o
 **ORCID:** [0009-0009-1518-4598](https://orcid.org/0009-0009-1518-4598)  
 **Contact:** [mohit.rsda@gmail.com](mailto:mohit.rsda@gmail.com)  
 **Repository:** [singhlamohit87/opioid-cost-prediction-pbm-sdoh](https://github.com/singhlamohit87/opioid-cost-prediction-pbm-sdoh)  
-**Existing Zenodo DOI:** [10.5281/zenodo.19842331](https://doi.org/10.5281/zenodo.19842331) *(verify that the deposited version corresponds to the current OPII analysis before citing it as the archive for this study)*
+
 
 > **Repository status:** The earlier README documented a different analysis of Medicare Part D opioid spending. The current manuscript analyzes an Opioid Prescribing Intensity Index (OPII), not opioid spending. Historical notebooks and artifacts should be treated as legacy materials until the OPII implementation and results are uploaded and verified.
 
