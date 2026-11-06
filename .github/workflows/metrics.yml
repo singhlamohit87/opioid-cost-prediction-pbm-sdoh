@@ -25,7 +25,7 @@ jobs:
 
       - name: Run metrics script
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+         GITHUB_TOKEN: ${{ secrets.METRICS_TOKEN }}
         run: python metrics/scripts/collect_metrics.py
 
       - name: Commit metrics
