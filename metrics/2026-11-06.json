@@ -1,0 +1,26 @@
+{
+  "date": "2026-11-06",
+  "clones": {
+    "message": "Resource not accessible by integration",
+    "documentation_url": "https://docs.github.com/rest/metrics/traffic#get-repository-clones",
+    "status": "403"
+  },
+  "views": {
+    "message": "Resource not accessible by integration",
+    "documentation_url": "https://docs.github.com/rest/metrics/traffic#get-page-views",
+    "status": "403"
+  },
+  "referrers": {
+    "message": "Resource not accessible by integration",
+    "documentation_url": "https://docs.github.com/rest/metrics/traffic#get-top-referral-sources",
+    "status": "403"
+  },
+  "popular_content": {
+    "message": "Resource not accessible by integration",
+    "documentation_url": "https://docs.github.com/rest/metrics/traffic#get-top-referral-paths",
+    "status": "403"
+  },
+  "stars": 0,
+  "forks": 0,
+  "watchers": 0
+}
