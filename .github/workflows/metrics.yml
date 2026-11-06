@@ -28,10 +28,11 @@ jobs:
          GITHUB_TOKEN: ${{ secrets.METRICS_TOKEN }}
         run: python metrics/scripts/collect_metrics.py
 
-      - name: Commit metrics
+       - name: Commit metrics
         run: |
           git config --global user.email "metrics-bot@github.com"
           git config --global user.name "Metrics Bot"
           git add metrics/
           git commit -m "Daily metrics $(date +%Y-%m-%d)" || echo "No changes to commit"
+          git pull --rebase origin main
           git push
