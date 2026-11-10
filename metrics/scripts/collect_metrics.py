@@ -6,7 +6,7 @@ headers = {
     'Authorization': f'token {token}',
     'Accept': 'application/vnd.github.v3+json'
 }
-repo = 'singhlamohit87/opioid-cost-prediction-pbm-sdoh'
+repo = 'singhlamohit87/opioid-prescribing-intensity-index'
 
 # Clones
 clones = requests.get(
